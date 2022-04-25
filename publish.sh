@@ -9,4 +9,4 @@ git add .
 #提交
 git commit -m 'deploy'
 #推送远程
-git push -f https://github.com/xiaojun90/blog.git master:gh-pages
+git push -f https://github.com/light-come/blog.git master:gh-pages
