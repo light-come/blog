@@ -66,10 +66,10 @@ namespace EjectMD
                             string title = null;
                             for (int row = 1; row <= rowCount; row++)
                             {
-                                fileName.Add(worksheet.Cells[row, 1].Value?.ToString().Trim().Replace(" ", "").ToUpper());
+                                fileName.Add(worksheet.Cells[row, 1].Value?.ToString().Trim());
 
                                 if (worksheet.Cells[row, 2].Value?.ToString().Trim() != null)
-                                    title = worksheet.Cells[row, 2].Value?.ToString().Trim().Replace(" ", "");
+                                    title = worksheet.Cells[row, 2].Value?.ToString().Trim();
                                 titleName.Add(title);
                                 for (int col = 1; col <= colCount; col++)
                                 {
@@ -77,25 +77,34 @@ namespace EjectMD
                                 }
                             }
 
-                            var index = 1;
                             string titlePath = null;
 
                             foreach (var item in titleName.Distinct().ToArray())
                             {
-                                titlePath = "\\" + Regex.Replace(item, @"[^a-zA-Z0-9\u4e00-\u9fa5\s]", "").Trim().Replace(" ","") + "\\";
-                                if (!Directory.Exists(path + titlePath))
+                                titlePath = "\\" + Regex.Replace(item, @"[^a-zA-Z0-9\u4e00-\u9fa5\s]", "").Trim().Replace(" ", "") + "\\";
+                                if (!Directory.Exists(path + titlePath))//去重
                                 {
                                     Directory.CreateDirectory(path + titlePath);
                                     //if (!File.Exists(path + titlePath))
                                     //{
                                     //    File.Create(path + titlePath).Close();
                                     //}
+
                                 }
-                            } //去重
+                            }
+                            var index = 0;
+                            string dic = "# 目录\r\n\r\n";
                             foreach (var item in fileName)
                             {
+                              
+                                var timeName = DateTime.Now.ToString("yyyyMMdd");
+                                index++;
+                                string FILE_NAME = $"{path + titlePath}{timeName}{index}.md";
 
-                                string FILE_NAME = $"{path + titlePath}{DateTime.Now.ToString("yyyyMMdd")}{index++}.{Regex.Replace(item.Replace(" ", ""), @"[^a-zA-Z0-9\u4e00-\u9fa5\s]", "")}.md";
+                                {
+                                    dic += $"[{index}-{item}]({timeName}{index}.html)\r\n\r\n";
+                                }
+
                                 StreamWriter sr;
                                 if (File.Exists(FILE_NAME))
                                     sr = File.AppendText(FILE_NAME);
@@ -104,12 +113,27 @@ namespace EjectMD
                                 sr.WriteLine("---");
                                 sr.WriteLine("title: " + item);
                                 sr.WriteLine("---"); sr.WriteLine(""); sr.WriteLine("");
-                                sr.WriteLine("# " + titleName[index - 2]);
+                                sr.WriteLine("# " + titleName[index - 1]);
                                 sr.WriteLine("");
                                 sr.WriteLine("## " + item);
                                 sr.Close();
 
                             }
+
+                            {
+                                string FILE_NAME = path + titlePath + "README.md";
+                                StreamWriter sr;
+                                if (File.Exists(FILE_NAME))
+                                    sr = File.AppendText(FILE_NAME);
+                                else
+                                    sr = File.CreateText(FILE_NAME);
+                                dic += "<Valine/>";
+                                sr.WriteLine(dic);
+                                sr.Close();
+                            }
+
+
+
                             System.Diagnostics.Process.Start("explorer.exe", path + titlePath);
                         }
 
@@ -122,9 +146,8 @@ namespace EjectMD
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click_1(object sender, EventArgs e)
         {
-
             FolderBrowserDialog dilog = new FolderBrowserDialog
             {
                 Description = "请选择导出文件夹"
@@ -151,37 +174,7 @@ namespace EjectMD
                 System.Windows.Forms.Clipboard.SetText(arr);
                 MessageBox.Show("已复制到粘贴板");
             }
+
         }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog dilog = new FolderBrowserDialog
-            {
-                Description = "请选择导出文件夹"
-            };
-            if (dilog.ShowDialog() == DialogResult.OK || dilog.ShowDialog() == DialogResult.Yes)
-            {
-                string path = dilog.SelectedPath;
-                DirectoryInfo root = new DirectoryInfo(path);
-                FileInfo[] files = root.GetFiles();
-
-                string dic = "# 目录\r\n\r\n"; int index = 0;
-                foreach (var item in files)
-                {
-                    string extension = Path.GetExtension(item.FullName);
-                    if (extension is ".md" && Path.GetFileNameWithoutExtension(item.FullName) != "README")
-                    {
-                        string name = Path.GetFileNameWithoutExtension(item.FullName).Split('.')[1];
-                        index++;
-                        dic += $"[{index}-{name}]({Path.GetFileNameWithoutExtension(item.FullName)}.html)\r\n\r\n";
-                    }
-                }
-                dic += "<Valine/>";
-                Console.WriteLine(dic);
-                System.Windows.Forms.Clipboard.SetText(dic);
-                MessageBox.Show("已复制到粘贴板");
-            }
-        }
-
     }
 }
