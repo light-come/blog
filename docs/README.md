@@ -1,9 +1,9 @@
 ---
 home: true
-heroImage: /timg.jpg
-actionText: 进入首页 →
+heroImage:  
+actionText: GO HOME →
 actionLink: /architecture/
 features:
 
-footer: MIT Licensed | Copyright © 2018-present Joyxj
+footer: MIT Licensed | Copyright © 2022 - CC BY-NC-SA 3.0
 ---
