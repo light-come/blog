@@ -1,7 +1,6 @@
 <template>
   <div id="vcomments"></div>
 </template>
-
 <script>
 export default {
   name: 'Valine',

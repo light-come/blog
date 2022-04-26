@@ -116,6 +116,10 @@ namespace EjectMD
                                 sr.WriteLine("# " + titleName[index - 1]);
                                 sr.WriteLine("");
                                 sr.WriteLine("## " + item);
+                                sr.WriteLine(""); sr.WriteLine("");
+
+                                sr.WriteLine("[![CC0](http://mirrors.creativecommons.org/presskit/buttons/88x31/svg/cc-zero.svg)](https://creativecommons.org/publicdomain/zero/1.0/)");
+                                sr.WriteLine("To the extent possible under law, [LIGHT-COME](https://github.com/light-come) has waived all copyright and related or neighboring rights to this work.");
                                 sr.Close();
 
                             }
