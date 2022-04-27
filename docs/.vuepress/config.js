@@ -8,6 +8,11 @@ const 编程架构 =
 
 const CesiumGS =
 ["202204261", "2022042610", "2022042611", "2022042612", "2022042613", "2022042614", "2022042615", "2022042616", "2022042617", "2022042618", "2022042619", "202204262", "2022042620", "2022042621", "2022042622", "2022042623", "202204263", "202204264", "202204265", "202204266", "202204267", "202204268", "202204269"]
+
+const BOOKMAGNETISM = 
+["202204271"]
+
+
 module.exports = {
   base: '/',
   title: 'woyaodangrapper',
@@ -18,16 +23,17 @@ module.exports = {
   themeConfig: {
     nav: [
       { text: '首页', link: '/' },
-      { text: '西奥迪尼社会心理学', link: '/architecture/SOCIALPSYCHOLOGYGOALSININTERACTION/' },
-      { text: '编程架构', link: '/architecture/SYSTEMSARCHITECTURE/' },
+      { text: '西奥迪尼社会心理学', link: '/ARCHITECTURE/SOCIALPSYCHOLOGYGOALSININTERACTION/' },
+      { text: '编程架构', link: '/ARCHITECTURE/SYSTEMSARCHITECTURE/' },
       {
         text: '三维引擎',
         items: [
           { text: 'WebGL', items: [
-            { text: 'CesiumJS', link: '/architecture/CesiumGS/' },
+            { text: 'CesiumJS', link: '/ARCHITECTURE/CesiumGS/' },
           ]},
         ]
       },
+      { text: 'HappyBoy', link: '/ARCHITECTURE/BOOKMAGNETISM/' },
       { text: 'Github', link: 'https://github.com/light-come/blog' } //,
 
       /**
@@ -43,21 +49,28 @@ module.exports = {
     ],
 
     sidebar: {
-      '/architecture/SOCIALPSYCHOLOGYGOALSININTERACTION/': [
+      '/ARCHITECTURE/SOCIALPSYCHOLOGYGOALSININTERACTION/': [
         {
           title: '西奥迪尼社会心理学',
           collapsable: false,
           children: 西奥迪尼社会心理学
         }
       ],
-      '/architecture/SYSTEMSARCHITECTURE/': [
+      '/ARCHITECTURE/BOOKMAGNETISM/': [
+        {
+          title: '快乐小子',
+          collapsable: false,
+          children: BOOKMAGNETISM
+        },
+      ],
+      '/ARCHITECTURE/SYSTEMSARCHITECTURE/': [
         {
           title: '编程架构',
           collapsable: false,
           children: 编程架构
         },
       ],
-      '/architecture/CesiumGS/': [
+      '/ARCHITECTURE/CesiumGS/': [
         {
           title: 'CesiumJS',
           collapsable: false,
@@ -75,6 +88,9 @@ module.exports = {
     lineNumbers: true
   },
   plugins: [    
+    ['check-md', {
+      pattern: 'ARCHITECTURE/BOOKMAGNETISM/*.md'
+    }],
     ['@vuepress/back-to-top', true], ['seo', { /* options */ }],
     [
       'sitemap' , {
