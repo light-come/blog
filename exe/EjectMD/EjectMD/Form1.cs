@@ -127,14 +127,15 @@ namespace EjectMD
                             }
                             foreach (var item in titlePath.Distinct().ToArray()) {
                                 {
-                                    var FILE_NAME = Path.GetDirectoryName(item) + "\\README.md";
+                                    var pathname = Path.GetDirectoryName(item)+ "\\";
+                                    var FILE_NAME = pathname + "README.md";
                                     StreamWriter sr;
                                     if (File.Exists(FILE_NAME))
                                         sr = File.AppendText(FILE_NAME);
                                     else
                                         sr = File.CreateText(FILE_NAME);
-                                    dic[titlePath[index - 1]] += "<Valine/>";
-                                    sr.WriteLine(dic[titlePath[index - 1]]);
+                                    dic[pathname] += "<Valine/>";
+                                    sr.WriteLine(dic[pathname]);
                                     sr.Close();
                                 }
 

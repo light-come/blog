@@ -26,9 +26,7 @@ module.exports = {
         {
           text: '三维引擎',
           items: [
-            { text: 'WebGL', items: [
-              { text: 'CesiumJS', link: '/ARCHITECTURE/cesiumjs/' },
-            ]},
+            { text: 'CesiumJS', link: '/ARCHITECTURE/cesiumjs/' },
           ]
         },
         
@@ -70,14 +68,14 @@ module.exports = {
           children: BOOKMAGNETISM
         },
       ],
-      '/ARCHITECTURE/SYSTEMSARCHITECTURE/': [
+      '/ARCHITECTURE/computerscience/': [
         {
           title: '系统架构实现',
           collapsable: false,
           children: 系统架构实现
         },
       ],
-      '/ARCHITECTURE/CesiumGS/': [
+      '/ARCHITECTURE/cesiumjs/': [
         {
           title: 'CesiumJS',
           collapsable: false,
