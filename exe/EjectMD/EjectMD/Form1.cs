@@ -77,33 +77,35 @@ namespace EjectMD
                                 }
                             }
 
-                            string titlePath = null;
-
-                            foreach (var item in titleName.Distinct().ToArray())
+                            List<string> titlePath = new List<string>();
+                            foreach (var item in titleName)//.Distinct().ToArray()
                             {
-                                titlePath = "\\" + Regex.Replace(item, @"[^a-zA-Z0-9\u4e00-\u9fa5\s]", "").Trim().Replace(" ", "") + "\\";
-                                if (!Directory.Exists(path + titlePath))//去重
+                                var paths = "\\" + Regex.Replace(item, @"[^a-zA-Z0-9\u4e00-\u9fa5\s]", "").Trim().Replace(" ", "") + "\\";
+                                if (!Directory.Exists(path + paths))//去重
                                 {
-                                    Directory.CreateDirectory(path + titlePath);
+                                    Directory.CreateDirectory(path + paths);
                                     //if (!File.Exists(path + titlePath))
                                     //{
                                     //    File.Create(path + titlePath).Close();
                                     //}
 
                                 }
+                                titlePath.Add(path + paths);
                             }
                             var index = 0;
-                            string dic = "# 目录\r\n\r\n";
+                            Dictionary<string, string> dic = new Dictionary<string, string>();
+                            foreach (var data in titlePath.Distinct().ToArray())
+                            {
+                                dic.Add(data, "# 目录\r\n\r\n");
+                            }
                             foreach (var item in fileName)
                             {
                               
                                 var timeName = DateTime.Now.ToString("yyyyMMdd");
                                 index++;
-                                string FILE_NAME = $"{path + titlePath}{timeName}{index}.md";
+                                string FILE_NAME = $"{titlePath[index-1]}{timeName}{index}.md";
 
-                                {
-                                    dic += $"[{index}-{item}]({timeName}{index}.html)\r\n\r\n";
-                                }
+                                dic[titlePath[index - 1]] += $"[{index}-{item}]({timeName}{index}.html)\r\n\r\n";
 
                                 StreamWriter sr;
                                 if (File.Exists(FILE_NAME))
@@ -123,22 +125,23 @@ namespace EjectMD
                                 sr.Close();
 
                             }
+                            foreach (var item in titlePath.Distinct().ToArray()) {
+                                {
+                                    var FILE_NAME = Path.GetDirectoryName(item) + "\\README.md";
+                                    StreamWriter sr;
+                                    if (File.Exists(FILE_NAME))
+                                        sr = File.AppendText(FILE_NAME);
+                                    else
+                                        sr = File.CreateText(FILE_NAME);
+                                    dic[titlePath[index - 1]] += "<Valine/>";
+                                    sr.WriteLine(dic[titlePath[index - 1]]);
+                                    sr.Close();
+                                }
 
-                            {
-                                string FILE_NAME = path + titlePath + "README.md";
-                                StreamWriter sr;
-                                if (File.Exists(FILE_NAME))
-                                    sr = File.AppendText(FILE_NAME);
-                                else
-                                    sr = File.CreateText(FILE_NAME);
-                                dic += "<Valine/>";
-                                sr.WriteLine(dic);
-                                sr.Close();
+                                System.Diagnostics.Process.Start("explorer.exe", item);
                             }
 
-
-
-                            System.Diagnostics.Process.Start("explorer.exe", path + titlePath);
+                            
                         }
 
                     }
